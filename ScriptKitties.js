@@ -1,8 +1,9 @@
- // These control the button statuses
-var autoCheck = [false, false, false, false, false, false, false, false, false, false];
-var autoName = ['build', 'craft', 'hunt', 'trade', 'praise', 'science', 'upgrade', 'party', 'assign', 'energy'];
+// These control the button statuses
+var AA = Object.freeze({"build":0, "craft":1, "hunt":2, "trade":3, "praise":4, "science":5, "upgrade":6, "party":7, "assign":8, "energy":9, "zebra":10, "dragon":11, "leviathan":12})
+var autoCheck = [false, false, false, false, false, false, false, false, false, false, false, false, false];
+var autoName = ['build', 'craft', 'hunt', 'trade', 'praise', 'science', 'upgrade', 'party', 'assign', 'energy', 'zebra', 'dragon', 'leviathan'];
 
- // These will allow quick selection of the buildings which consume energy
+// These will allow quick selection of the buildings which consume energy
 var bldSmelter = gamePage.bld.buildingsData[15];
 var bldBioLab = gamePage.bld.buildingsData[9];
 var bldOilWell = gamePage.bld.buildingsData[20];
@@ -134,15 +135,15 @@ var resources = [
     ["iron", "plate", 125],
     ["oil", "kerosene", 7500],
     ["uranium", "thorium", 250],
-		["unobtainium", "eludium", 1000]
-    ];
+    ["unobtainium", "eludium", 1000]
+];
 
 var secondaryResources = [
-		["beam", "scaffold", 50],
+    ["beam", "scaffold", 50],
     ["steel", "alloy", 75],
-		["steel", "gear", 15],
-		["slab", "concrate", 2500]
-		];
+    ["steel", "gear", 15],
+    ["slab", "concrate", 2500]
+];
 
 var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
@@ -153,10 +154,10 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 
 '<button id="killSwitch" onclick="clearInterval(clearScript()); gamePage.msg(deadScript);">Kill Switch</button> </br>' +
 '<button id="efficiencyButton" onclick="kittenEfficiency()">Check Efficiency</button></br></br>' +
-'<button id="autoBuild" style="color:red" onclick="autoSwitch(autoCheck[0], 0, autoName[0], \'autoBuild\');"> Auto Build </button></br>' +
+'<button id="autoBuild" style="color:red" onclick="autoSwitch(autoCheck[AA.build], AA.build, autoName[AA.build], \'autoBuild\');"> Auto Build </button></br>' +
 '<button id="bldSelect" onclick="selectBuildings()">Select Building</button></br>' +
 
-'<button id="autoAssign" style="color:red" onclick="autoSwitch(autoCheck[8], 8, autoName[8], \'autoAssign\')"> Auto Assign </button>' +
+'<button id="autoAssign" style="color:red" onclick="autoSwitch(autoCheck[AA.assign], AA.assign, autoName[AA.assign], \'autoAssign\')"> Auto Assign </button>' +
 '<select id="autoAssignChoice" size="1" onclick="setAutoAssignValue()">' +
 '<option value="farmer" selected="selected">Farmer</option>' +
 '<option value="woodcutter">Woodcutter</option>' +
@@ -168,7 +169,7 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 '<option value="engineer">Engineer</option>' +
 '</select></br>' +
 
-'<button id="autoCraft" style="color:red" onclick="autoSwitch(autoCheck[1], 1, autoName[1], \'autoCraft\')"> Auto Craft </button>' +
+'<button id="autoCraft" style="color:red" onclick="autoSwitch(autoCheck[AA.craft], AA.craft, autoName[AA.craft], \'autoCraft\')"> Auto Craft </button>' +
 '<select id="craftFur" size="1" onclick="setFurValue()">' +
 '<option value="0" selected="selected">None</option>' +
 '<option value="1">Parchment</option>' +
@@ -181,13 +182,16 @@ var htmlMenuAddition = '<div id="farRightColumn" class="column">' +
 '<span id="secResSpan" title="Between 0 and 100"><input id="secResText" type="text" style="width:25px" onchange="secResRatio = this.value" value="0"></span></br></br>' +
 
 
-'<button id="autoHunt" style="color:red" onclick="autoSwitch(autoCheck[2], 2, autoName[2], \'autoHunt\')"> Auto Hunt </button></br>' +
-'<button id="autoTrade" style="color:red" onclick="autoSwitch(autoCheck[3], 3, autoName[3], \'autoTrade\')"> Auto Trade </button></br>' +
-'<button id="autoPraise" style="color:red" onclick="autoSwitch(autoCheck[4], 4, autoName[4], \'autoPraise\')"> Auto Praise </button></br></br>' +
-'<button id="autoScience" style="color:red" onclick="autoSwitch(autoCheck[5], 5, autoName[5], \'autoScience\')"> Auto Science </button></br>' +
-'<button id="autoUpgrade" style="color:red" onclick="autoSwitch(autoCheck[6], 6, autoName[6], \'autoUpgrade\')"> Auto Upgrade </button></br>' +
-'<button id="autoEnergy" style="color:red" onclick="autoSwitch(autoCheck[9], 9, autoName[9], \'autoEnergy\')"> Energy Control </button></br>' +
-'<button id="autoParty" style="color:red" onclick="autoSwitch(autoCheck[7], 7, autoName[7], \'autoParty\')"> Auto Party </button></br></br>' +
+'<button id="autoHunt" style="color:red" onclick="autoSwitch(autoCheck[AA.hunt], AA.hunt, autoName[AA.hunt], \'autoHunt\')"> Auto Hunt </button></br>' +
+'<button id="autoTrade" style="color:red" onclick="autoSwitch(autoCheck[AA.trade], AA.trade, autoName[AA.trade], \'autoTrade\')"> Auto Trade </button>' +
+'Z: <input type="checkbox" id="autoTradeZebra"><label for="autoTradeZebra" onclick="autoSwitch(autoCheck[AA.zebra], AA.zebra, autoName[AA.zebra], \'autoTradeZebra\')"></label>' +
+'D: <input type="checkbox" id="autoTradeDragon"><label for="autoTradeDragon" onclick="autoSwitch(autoCheck[AA.dragon], AA.dragon, autoName[AA.dragon], \'autoTradeDragon\')"></label>' +
+'L: <input type="checkbox" id="autoTradeLeviathan"><label for="autoTradeLeviathan" onclick="autoSwitch(autoCheck[AA.leviathan], AA.leviathan, autoName[AA.leviathan], \'autoTradeLeviathan\')"></label>' +
+'<button id="autoPraise" style="color:red" onclick="autoSwitch(autoCheck[AA.praise], AA.praise, autoName[AA.praise], \'autoPraise\')"> Auto Praise </button></br></br>' +
+'<button id="autoScience" style="color:red" onclick="autoSwitch(autoCheck[AA.science], AA.science, autoName[AA.science], \'autoScience\')"> Auto Science </button></br>' +
+'<button id="autoUpgrade" style="color:red" onclick="autoSwitch(autoCheck[AA.upgrade], AA.upgrade, autoName[AA.upgrade], \'autoUpgrade\')"> Auto Upgrade </button></br>' +
+'<button id="autoEnergy" style="color:red" onclick="autoSwitch(autoCheck[AA.energy], AA.energy, autoName[AA.energy], \'autoEnergy\')"> Energy Control </button></br>' +
+'<button id="autoParty" style="color:red" onclick="autoSwitch(autoCheck[AA.party], AA.party, autoName[AA.party], \'autoParty\')"> Auto Party </button></br></br>' +
 '</div>' +
 '</div>'
 
@@ -380,14 +384,14 @@ function autoObserve() {
 
 	// Auto praise the sun
 function autoPraise(){
-	if (autoCheck[4] != false && gamePage.bld.getBuildingExt('temple').meta.val > 0) {
+	if (autoCheck[AA.praise] != false && gamePage.bld.getBuildingExt('temple').meta.val > 0) {
 		gamePage.religion.praise();
 	}
 }
 
 	// Build buildings automatically
 function autoBuild() {
-	if (autoCheck[0] != false && gamePage.ui.activeTabId == 'Bonfire') {
+	if (autoCheck[AA.build] != false && gamePage.ui.activeTabId == 'Bonfire') {
 		var btn = gamePage.tabs[0].buttons;
 
 		//for (var z = 0; z < Math.min(gamePage.tabs[0].buttons.length, 32); z++) {
@@ -417,7 +421,7 @@ function autoBuild() {
 
 	// Build space stuff automatically
 function autoSpace() {
-	if (autoCheck[0] != false) {
+	if (autoCheck[AA.build] != false) {
 		var origTab = gamePage.ui.activeTabId;
 
 		// Build space buildings
@@ -474,26 +478,41 @@ function autoSpace() {
 
 		// Trade automatically
 function autoTrade() {
-	if (autoCheck[3] != false) {
+	if (autoCheck[AA.trade] != false) {
 		var titRes = gamePage.resPool.get('titanium');
+		var uraRes = gamePage.resPool.get('uranium');
 		var unoRes = gamePage.resPool.get('unobtainium');
 		var goldResource = gamePage.resPool.get('gold');
 		var goldOneTwenty = gamePage.getResourcePerTick('gold') * 200;
-			if (goldResource.value > (goldResource.maxValue - goldOneTwenty)) {
+		
+		//TBH I don't get why it was done this way before
+		//if (goldResource.value > (goldResource.maxValue - goldOneTwenty)) {
+		if (goldResource.value > (goldResource.maxValue * 0.9)) {
+			// Leviathan (Unobtainium -> Mixed)
+			if (autoCheck[AA.leviathan] != false) {
 				if (unoRes.value > 5000  && gamePage.diplomacy.get('leviathans').unlocked && gamePage.diplomacy.get('leviathans').duration != 0) {
 					gamePage.diplomacy.tradeAll(game.diplomacy.get("leviathans"));
-				} else if (titRes.value < (titRes.maxValue * 0.9)  && gamePage.diplomacy.get('zebras').unlocked) {
+				}
+			}
+			// Zebras (Slabs -> Titanium)
+			if (autoCheck[AA.zebra] != false) {
+				if (titRes.value < (titRes.maxValue * 0.9) && gamePage.diplomacy.get('zebras').unlocked) {
 					gamePage.diplomacy.tradeAll(game.diplomacy.get("zebras"), (goldOneTwenty / 15));
-				} else if (gamePage.diplomacy.get('dragons').unlocked) {
+				}
+			}
+			// Dragons (Titanium -> Uranium)
+			if (autoCheck[AA.dragon] != false) {
+				if (uraRes.value < (uraRes.maxValue * 0.9) && gamePage.diplomacy.get('dragons').unlocked) {
 					gamePage.diplomacy.tradeAll(game.diplomacy.get("dragons"), (goldOneTwenty / 15));
 				}
 			}
+		}
 	}
 }
 
 		// Hunt automatically
+	if (autoCheck[AA.hunt] != false) {
 function autoHunt() {
-	if (autoCheck[2] != false) {
 		var catpower = gamePage.resPool.get('manpower');
 		if (catpower.value > (catpower.maxValue - 1)) {
 			gamePage.village.huntAll();
@@ -503,7 +522,7 @@ function autoHunt() {
 
 		// Craft primary resources automatically
 function autoCraft() {
-	if (autoCheck[1] != false) {
+	if (autoCheck[AA.craft] != false) {
 		for (var i = 0; i < resources.length; i++) {
     	var curRes = gamePage.resPool.get(resources[i][0]);
     	var resourcePerTick = gamePage.getResourcePerTick(resources[i][0], 0);
@@ -539,7 +558,7 @@ function autoCraft() {
 
 		// Auto Research
 function autoResearch() {
-	if (autoCheck[5] != false && gamePage.libraryTab.visible != false) {
+	if (autoCheck[AA.science] != false && gamePage.libraryTab.visible != false) {
 		var origTab = gamePage.ui.activeTabId;
 		gamePage.ui.activeTabId = 'Science'; gamePage.render();
 
@@ -565,7 +584,7 @@ function autoResearch() {
 
 		// Auto Workshop upgrade , tab 3
 function autoWorkshop() {
-	if (autoCheck[6] != false && gamePage.workshopTab.visible != false) {
+	if (autoCheck[AA.upgrade] != false && gamePage.workshopTab.visible != false) {
 		var origTab = gamePage.ui.activeTabId;
 		gamePage.ui.activeTabId = 'Workshop'; gamePage.render();
 
@@ -590,8 +609,9 @@ function autoWorkshop() {
 }
 
 		// Festival automatically
+//TODO: Limit frequency (maybe 200 years at a time, refill once per year)
 function autoParty() {
-	if (autoCheck[7] != false && gamePage.science.get("drama").researched) {
+	if (autoCheck[AA.party] != false && gamePage.science.get("drama").researched) {
 		var catpower = gamePage.resPool.get('manpower').value;
 		var culture = gamePage.resPool.get('culture').value;
 		var parchment = gamePage.resPool.get('parchment').value;
@@ -608,14 +628,14 @@ function autoParty() {
 
 		// Auto assign new kittens to selected job
 function autoAssign() {
-	if (autoCheck[8] != false && gamePage.village.getJob(autoChoice).unlocked) {
+	if (autoCheck[AA.assign] != false && gamePage.village.getJob(autoChoice).unlocked) {
 		gamePage.village.assignJob(gamePage.village.getJob(autoChoice));
 	}
 }
 
 		// Control Energy Consumption
 function energyControl() {
-	if (autoCheck[9] != false) {
+	if (autoCheck[AA.energy] != false) {
 		proVar = gamePage.resPool.energyProd;
 		conVar = gamePage.resPool.energyCons;
 
@@ -654,7 +674,7 @@ function energyControl() {
 }
 
 function autoNip() {
-	if (autoCheck[0] != false) {
+	if (autoCheck[AA.build] != false) {
 		if (gamePage.bld.buildingsData[0].val < 20) {
 			$(".btnContent:contains('Gather')").trigger("click");
 		}
