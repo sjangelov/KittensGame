@@ -135,7 +135,7 @@ SK.Model = class {
             observe: true,
             conserveExotic: true,
             partyLimit: 10,
-            elderTrade: true,
+            elderTrade: false,
         };
     }
 
@@ -2212,6 +2212,7 @@ SK.Scripts = class {
                 this.model.minor.feed = true;
                 this.model.minor.promote = true;
                 this.model.minor.praiseAfter = true;
+                this.model.minor.elderTrade = false;
                 this.state.push('build-start');
                 this.state.push('build-upgrade');
                 this.state.push('workshop-mid');
