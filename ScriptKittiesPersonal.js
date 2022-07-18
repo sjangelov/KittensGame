@@ -2532,7 +2532,7 @@ SK.Scripts = class {
         var unobtainiumFraction = 0.10;
         var maxFields = 100;
         var maxTemples = 150; // judgement call, when to switch from manuscripts to blueprints
-        var maxChronospheres = 80;
+        var maxChronospheres = 73;
 
         /* Plan:
          *   Build lots of Mints
