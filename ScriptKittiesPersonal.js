@@ -2582,7 +2582,7 @@ SK.Scripts = class {
                 for (const upgrade of requiredWorkshop) {
                     if (! game.workshop.get(upgrade).researched) return false;
                 }
-                this.model.cathBuildings.hut.enabled = true;
+                this.model.cathBuildings.hut.enabled = false;
                 this.model.cathBuildings.hut.limit = this.buildingCount('hut', 'all', resourceFraction);
                 this.model.option.book = 'manuscript'; // start temples in earnest
                 return true;
