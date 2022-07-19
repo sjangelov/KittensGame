@@ -2678,11 +2678,7 @@ SK.Scripts = class {
          */
 
         // Phase 0. Variables
-        const chronoCount = Math.min(
-            this.buildingCount('chronosphere', 'unobtainium', 0.001),
-            this.buildingCount('chronosphere', 'science', 0.001),
-            this.buildingCount('chronosphere', 'timeCrystal', 0.000001)
-        );
+        const chronoCount = 88;
         sk.tasks.ensureContentExists('Trade'); // create button
         const lizards = game.diplomacy.get('lizards');
 
